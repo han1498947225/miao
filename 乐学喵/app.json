@@ -1,0 +1,53 @@
+{
+  "usingComponents": {
+    "van-popup": "@vant/weapp/popup/index"
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/study/study",
+    "pages/miaowu/miaowu",
+    "pages/tool/tool",
+    "pages/personal/personal"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "乐学喵",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [{
+        "pagePath": "pages/index/index",
+        "text": "选课",
+        "iconPath": "images/选课.png",
+        "selectedIconPath": "images/选课1.png"
+      },
+      {
+        "pagePath": "pages/study/study",
+        "text": "我的课",
+        "iconPath": "images/我的课.png",
+        "selectedIconPath": "images/我的课1.png"
+      },
+      {
+        "pagePath": "pages/miaowu/miaowu",
+        "text": "喵屋",
+        "iconPath": "images/喵屋.png",
+        "selectedIconPath": "images/喵屋1.png"
+      },
+      {
+        "pagePath": "pages/tool/tool",
+        "text": "工具",
+        "iconPath": "images/工具.png",
+        "selectedIconPath": "images/工具1.png"
+      },
+      {
+        "pagePath": "pages/personal/personal",
+        "text": "我的",
+        "iconPath": "images/我的.png",
+        "selectedIconPath": "images/我的1.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}
