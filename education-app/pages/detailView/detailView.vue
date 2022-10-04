@@ -1,36 +1,34 @@
 <template>
 	<view>
-		<uni-popup ref="popup" type="center" class="pop" @maskClick="closePop">
-			<p>免费试看 <span @click="close">X</span></p>
-			<video :src="videoUrl" :autoplay="true"></video>
-		</uni-popup>
 		<view class="top-pic">
-			<image :src="detailList.mainImage" mode="" @click="toBack"></image>
 			<span @click="back"></span>
+			<image :src="detailList.mainImage" mode=""></image>
+		</view>
+		<view class="header" v-if="flag">
+			<span class="back" @click="back"></span>
+			<text class="title">{{ detailList.title }}</text>
 		</view>
 		<view class="content-text">
 			<view class="fir-text">
 				<view class="left">
-					￥{{detailList.priceDiscount}}
+					￥{{ detailList.priceDiscount }}
 				</view>
 				<view class="center">
-					<s>￥{{detailList.priceOriginal}}</s>
+					<s>￥{{ detailList.priceOriginal }}</s>
 				</view>
 				<view class="last">
 					优惠价
 				</view>
 			</view>
 			<view class="center-text">
-				{{detailList.title}}
+				{{ detailList.title }}
 			</view>
 			<view class="last-text">
 				<view class="left">
-					<image src="../../static/images/flowerdark.png" mode=""></image>
-					{{detailList.goodRate}}好评
+					{{ detailList.goodRate }}好评
 				</view>
 				<view class="right">
-					<image src="../../static/images/mydark.png" mode=""></image>
-					{{detailList.studyTotal}}人在学
+					{{ detailList.studyTotal }}人在学
 				</view>
 			</view>
 		</view>
@@ -44,67 +42,57 @@
 		</view>
 		<view class="tab-content">
 			<view class="fir-tab" v-show="currentId==0">
-				<image :src="detailList.detailUrls" mode=""></image>
+				<image :src="detailList.detailUrls"></image>
 			</view>
-			<!-- 章节区域 -->
 			<view class="sec-tab" v-show="currentId==1">
-				<view class="big-box">
-					<view class="out-box" v-for="item,index in articleList" :key="item.id">
-						<view class="fir-txt">
-							<span class="fir-span">第{{index+1}}章 {{item.name}}</span>
-							<view class="in-box" v-for="child,i in item.sectionList" :key="child.id"
-								@click="toVideo(child)">
-								<image src="../../static/images/jian.png" mode=""></image>
-								<span class="num">{{ index+1 }}-{{i+1}}</span>
-								<span>{{child.name}}</span>
-								<span class="free-look" v-show="child.isFree==1">试看</span>
+				<view class="sec-tab-content" v-for="item,index in sectionList" :key="item.id">
+					<h4>{{ item.name }}</h4>
+					<ul>
+						<li v-for="child,i in item.sectionList" :key="child.id" @click="openVideo(child)">
+							<view class="left">
+								<image src="../../static/images/gt.png" mode=""></image>
+								<text>{{ index + 1 }}-{{ i + 1 }}</text>
+								<text>{{ child.name }}</text>
 							</view>
-						</view>
-					</view>
-
+							<text class="right" v-if="child.isFree">试看</text>
+						</li>
+					</ul>
 				</view>
+				<uni-popup ref="popupCoupon" type="center">
+					<h3 style="color: #fff;text-align: center; margin: 20rpx;" @click="closePopup">免费试看 ×</h3>
+					<video :src="videoItem" :show-center-play-btn="false" :autoplay="true"></video>
+				</uni-popup>
 			</view>
-			<!-- 评论区域 -->
 			<view class="thr-tab" v-show="currentId==2">
-				<view class="comment-box" v-for="item in commentList" :key="item.id">
+				<view class="thr-tab-item" v-for="item in commentList" :key="item.id">
 					<view class="top">
 						<view class="left">
-							<view class="left-pic">
-								
-								<image src="../../static/tab/my.png" mode="" v-if="item.userImage==null"></image>
-								<image :src="item.userImage" mode="" v-else></image>
-							</view>
-							<view class="center">
-								<p>{{item.nickName}}</p>
-								<p>{{item.createDate}}</p>
+							<image :src="item.userImage" mode=""></image>
+							<view>
+								<h4>{{ item.nickName }}</h4>
+								<p>{{ item.createDate }}</p>
 							</view>
 						</view>
-						<image class="logo" src="../../static/images/redflower.png" mode="" v-if="item.isGood==1"></image>
-						<image class="logo" src="../../static/images/flower.png" mode="" v-else ></image>
-						
+						<image class="flower" v-if="!item.isGood" src="../../static/images/grayflower.png" mode="">
+						</image>
+						<image class="flower" v-else src="../../static/images/flower.png" mode=""></image>
 					</view>
-					<view class="center-text">
-						{{item.content}}
+					<view class="content">
+						{{ item.content }}
 					</view>
-					<view class="bot-txt" v-if="item.children!=null">
-							讲师回复:{{item.children.content}}
-					</view>
+					<view class="childContent" v-if="item.children != null">讲师回复：{{ item.children.content }}</view>
 				</view>
 			</view>
 			<view class="last-tab" v-show="currentId==3">
-				<view class="last-box" v-for="item in groupList" :key="item.id">
-					<view class="fir-group">
-						{{item.title}}
-					</view>
-						<courseView :hotList="item.list"></courseView>
-					<view class="group-bottom">
-						<view class="bo-text">
-							<span>￥{{item.groupPrice}}</span>
-							<s>￥{{item.totalPrice}}</s>
-						</view>
-						<span class="buy-btn" @click="buyGroup(item)">购买套餐</span>
+				<view class="content" v-for="item in setmealList" :key="item.id">
+					<p>{{ item.title }}</p>
+					<couresView :couresList="item.list"></couresView>
+					<view class="purchase">
+						<h3>￥{{ item.groupPrice }} <s>￥{{ item.totalPrice }}</s> </h3>
+						<p @click="toConfirm(item)">购买套餐</p>
 					</view>
 				</view>
+				
 			</view>
 		</view>
 
@@ -119,280 +107,153 @@
 	import {
 		reactive,
 		toRefs,
-		ref
+		ref,
+		onMounted
 	} from "vue"
-	import {
-		getDetailList,
-		getArticle,
-		getComment,
-		getGroup
-	} from '@/utils/http.js'
 	import {
 		useRoute,
 		useRouter
-	} from 'vue-router'  
-	import {onMounted} from 'vue'
+	} from 'vue-router'
+	import {
+		detail,
+		sections,
+		comment,
+		setmeal
+	} from '../../api/detail.js'
+	import {
+		onPageScroll
+	} from '@dcloudio/uni-app'
 	export default {
 		setup() {
-			uni.pageScrollTo({
-				scrollTop:0
-			})
-			const data = reactive({
-				tabList: [{
-						title: '详情',
-						id: 0
-					},
-					{
-						title: '章节',
-						id: 1
-					},
-					{
-						title: '评论',
-						id: 2
-					},
-					{
-						title: '套餐',
-						id: 3
-					}
-				],
-				currentId: 0,
-				detailList: [], //详情数据
-				articleList: [], //章节数据
-				commentList:[], //评论数据
-				groupList:[] //套餐数据
-			})
-			
 			const route = useRoute()
 			const router = useRouter()
-			const popup=ref(null)
-			
+			uni.pageScrollTo({
+				scrollTop: 0
+			})
+			// console.log(route.query.id);
+			const back = () => {
+				uni.navigateBack({})
+			}
+			const data = reactive({
+				detailList: {}, // 详情数据
+				// tab栏数据
+				tabList: [{
+					title: '详情',
+					id: 0
+				}, {
+					title: '章节',
+					id: 1
+				}, {
+					title: '评论',
+					id: 2
+				}, {
+					title: '套餐',
+					id: 3
+				}],
+				currentId: 0,
+				flag: false, // 标题状态
+				sectionList: [], // 章节数据
+				videoItem: '', // 播放
+				commentList: [], // 评论数据
+				setmealList: [] // 套餐数据
+			})
 			// 切换导航栏
 			const changeTab = (id) => {
 				data.currentId = id
-				// console.log(id);
 			}
-			// 获取详情信息
-			getDetailList(route.query._value).then(res => {
-				// console.log(res);
+			const popupCoupon = ref(null)
+
+			// 详情
+			detail().then(res => {
 				data.detailList = res.data
 			})
-
-			// 获取章节信息
-			getArticle(route.query._value).then(res => {
-				console.log(res);
-				data.articleList = res.data
+			// 章节
+			sections().then(res => {
+				data.sectionList = res.data
 			})
-			// 视频播放页面
-			const toVideo = (val) => {
-				// console.log(flag, id);
-				console.log(val);
-				if (val.isFree == 0) {
-					uni.showToast({
-						icon:"none",
-						title:"请先购买"
-					})
+			// 评论
+			comment().then(res => {
+				data.commentList = res.data
+			})
+			// 套餐
+			setmeal().then(res => {
+				data.setmealList = res.data
+			})
+			// 监听滚动条
+			onPageScroll((e) => {
+				if (e.scrollTop >= 200) {
+					data.flag = true
 				} else {
-					popup.value.open()
-					data.videoUrl=val.videoUrl
-					console.log(data.videoUrl);
-					// router.push(`/pages/videoView/videoView?id=${id}`)
+					data.flag = false
 				}
-				
+			})
+			// 是否看视频
+			const openVideo = (child) => {
+				if (child.isFree) {
+					popupCoupon.value.open()
+					data.videoItem = child.videoUrl
+				} else {
+					uni.showToast({
+						title: '请先购买',
+						icon: "none"
+					})
+				}
 			}
 			// 关闭弹框
-			const close=()=>{
-				popup.value.close()
+			const closePopup = () => {
+				popupCoupon.value.close()
 			}
-			const closePop=()=>{
-				popup.value.close()
+			
+			const toConfirm = (item) => {
+				router.push(`/pages/order/confirm?list=${JSON.stringify(item)}`)
 			}
-			// 获取评论
-			getComment(route.query._value).then(res =>{
-				// console.log(res);
-				data.commentList=res.data
-			})
-			// 获取套餐数据
-			getGroup(route.query._value).then(res =>{
-				console.log(res);
-				data.groupList=res.data
-			})
-			// 购买套餐
-			const buyGroup=(val)=>{
-				// router.push(`/pages/orderView/orderView?val=${val}`)
-			}
-			const back=()=>{
-				uni.navigateBack()
-			}
-			// 返回上一页
-			const toBack = () => {
-				// console.log(444);
-				// router.push("/pages/index/index")
-			}
+			
 			return {
 				...toRefs(data),
 				changeTab,
-				toBack,
-				toVideo,
-				buyGroup,
-				popup,
-				close,
-				closePop,
-				back
+				back,
+				openVideo,
+				popupCoupon,
+				closePopup,
+				toConfirm
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	// .pop{
-	// 	width: 100%;
-	// 	min-height: 100vh;
-		
-	// }
-	.pop{
-		color: white;
+	.header {
+		height: 100rpx;
+		line-height: 100rpx;
+		background-color: #345dc2;
+		color: #fff;
+		font-weight: 600;
+		font-size: 35rpx;
+		position: fixed;
+		top: 0;
+		width: 100%;
 		text-align: center;
-		p{
-			font-size: 40rpx;
-			margin-bottom: 5%;
-			span{
-				margin-left: 3%;
-			}
+		z-index: 1;
+
+		.back::before {
+			position: absolute;
+			top: 38rpx;
+			left: 30rpx;
+			display: inline-block;
+			content: '';
+			width: 20rpx;
+			height: 20rpx;
+			border-left: 2px solid #fff;
+			border-bottom: 2px solid #fff;
+			transform: rotate(45deg);
 		}
-	}
-	// 套餐
-	.last-tab{
-		width: 100%;
-		.last-box{
-			width: 90%;
-			margin: 5%;
-			box-shadow: 5rpx 4rpx 4rpx 4rpx #eee;
-			border-radius: 15rpx;
-			padding: 3%;
-			box-sizing: border-box;
-			.fir-group{
-				font-size: 35rpx
-			}
-			.group-bottom{
-				width: 100%;
-				display: flex;
-				justify-content: space-between;
-				margin-top: 3%;
-				.buy-btn{
-					color: red;
-					font-weight: 550;
-				}
-				.bo-text{
-					span{
-						font-weight: 700;
-						color: red;
-						font-size: 40rpx;
-					}
-					s{
-						color: #8d8d8d;
-						margin-left: 5%;
-						font-size: 30rpx;
-					}
-				}
-			}
-		}
-		
-	}
-	// 评论
-	.thr-tab{
-		width: 100%;
-		.comment-box{
-			width: 100%;
-			padding: 4%;
-			box-sizing: border-box;
-			.top{
-				width: 100%;
-				display: flex;
-				justify-content: space-between;
-				.left{
-					display: flex;
-					.center p:nth-of-type(1){
-						font-weight: 600;
-					}
-					.center p:nth-of-type(2){
-						color: gray;
-						font-size: 28rpx
-					}
-					.left-pic{
-						width: 90rpx;
-						height: 90rpx;
-						border-radius: 50%;
-						background-color: #fff;
-						margin-right: 20rpx;
-						image{
-							width: 100%;
-							height: 100%;
-							border-radius: 50%;
-						}
-					}
-					
-				}
-				.logo{
-					width: 50rpx;
-					height: 50rpx;
-				}
-				
-			}
-			.center-text{
-				margin: 2% 0;
-			}
-			.bot-txt{
-				width: 100%;
-				padding: 4% 3%;
-				box-sizing: border-box;
-				background-color: #f8f9fb;
-				color: gray;
-			}
-		}
-	}
-	// 章节
-	.big-box {
-		width: 100%;
-		height: 100%;
 
-		.out-box {
-			width: 100%;
-
-			.fir-txt {
-				padding: 25rpx;
-
-				.fir-span {
-					font-weight: 550;
-					font-size: 38rpx;
-				}
-
-				.in-box {
-					width: 100%;
-					display: flex;
-					align-items: center;
-					color: black;
-					padding: 20rpx 0;
-					border-bottom: 1px solid #eee;
-					position: relative;
-
-					.free-look {
-						position: absolute;
-						right: 0;
-						color: #007aff;
-						font-size: 20rpx;
-					}
-
-					.num {
-						margin: 0 10rpx;
-					}
-
-					image {
-						width: 30rpx;
-						height: 30rpx;
-
-					}
-				}
-			}
+		.title {
+			display: inline-block;
+			width: 70%;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 	}
 
@@ -407,7 +268,7 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		z-index: 4;
+		z-index: 1;
 
 		.buy-btn {
 			border: none;
@@ -417,7 +278,6 @@
 			background-color: #345dc2;
 			color: #fff;
 			border-radius: 50rpx;
-
 		}
 	}
 
@@ -430,11 +290,39 @@
 		.thr-tab,
 		.last-tab {
 			width: 100%;
-
+			padding-bottom: 60rpx;
 			image {
 				width: 100%;
 				display: block;
 			}
+		}
+		.last-tab {
+			padding: 20rpx;
+			// padding-bottom: 60rpx;
+			.content {
+				width: 96%;
+				margin: 30rpx auto;
+				padding: 10rpx;
+				box-shadow: 1px 1px 3px rgb(0 0 0 / 10%);
+				.purchase {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					p{
+						color: #fb403b;
+						font-weight: 600;
+						font-size: 30rpx;
+					}
+					h3 {
+						color: #fb403b;
+						s {
+							color: #79797b;
+							font-size: 30rpx;
+						}
+					}
+				}
+			}
+			
 		}
 
 		.fir-tab {
@@ -442,6 +330,116 @@
 
 			image {
 				height: 22112rpx;
+			}
+		}
+
+		.sec-tab {
+			padding: 30rpx;
+
+			.sec-tab-content {
+				h4 {
+					font-weight: 600;
+					color: #333333;
+					font-size: 35rpx;
+				}
+
+				ul {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+
+					li {
+						display: flex;
+						justify-content: space-between;
+						height: 100rpx;
+						align-items: center;
+						border-bottom: 1px solid #eee;
+
+						.left {
+							display: flex;
+							align-items: center;
+
+							image {
+								width: 40rpx;
+								height: 40rpx;
+							}
+
+							text {
+								font-size: 30rpx;
+								color: #79797b;
+								margin-left: 10rpx;
+								font-weight: 540;
+							}
+						}
+
+						.right {
+							color: #007aff;
+							font-size: 30rpx;
+						}
+					}
+				}
+			}
+		}
+
+		.thr-tab {
+			padding: 20rpx;
+
+			.thr-tab-item {
+				width: 100%;
+				padding: 20rpx;
+				box-sizing: border-box;
+				border-bottom: 1px solid #eee;
+
+				.content {
+					font-size: 30rpx;
+					margin-top: 20rpx;
+					color: #79797b;
+				}
+				.childContent {
+					background-color: #f8f9fb;
+					color: #79797b;
+					padding: 10rpx;
+					margin: 10rpx 0;
+					font-size: 30rpx;
+				}
+				.top {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+
+					.flower {
+						width: 50rpx;
+						height: 50rpx;
+						border-radius: 50%;
+
+					}
+
+					.left {
+						width: 60%;
+						display: flex;
+						align-items: center;
+
+						image:nth-child(1) {
+							width: 80rpx;
+							height: 80rpx;
+							border-radius: 50%;
+						}
+
+						view {
+							margin-left: 20rpx;
+
+							h3 {
+								font-size: 30rpx;
+							}
+
+							p {
+								font-size: 25rpx;
+								color: #79797b;
+							}
+						}
+					}
+
+				}
 			}
 		}
 	}
@@ -510,7 +508,7 @@
 			display: flex;
 			margin: 2% 0;
 			color: #8d8d8d;
-				
+
 			.left,
 			.right {
 				width: 200rpx;
@@ -519,23 +517,10 @@
 				line-height: 70rpx;
 				border-radius: 40rpx;
 				background-color: #f8f9fb;
-				
 			}
 
 			.left {
 				margin-right: 3%;
-				image{
-					width: 40rpx;
-					height: 40rpx;
-					vertical-align: middle;
-				}
-			}
-			.right{
-				image{
-					width: 30rpx;
-					height: 30rpx;
-					line-height: 30rpx;
-				}
 			}
 		}
 	}
@@ -552,6 +537,7 @@
 			top: 2%;
 			left: 2%;
 			border-radius: 50%;
+			z-index: 1;
 		}
 
 		span::before {

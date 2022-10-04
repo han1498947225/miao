@@ -1,0 +1,1 @@
+<view><search-input u-i="3300cad4-0" bind:__l="__l"></search-input><view class="box"><view class="left"><view wx:for="{{a}}" wx:for-item="item" wx:key="b">{{item.a}}</view></view><view class="right"><view></view></view></view></view>

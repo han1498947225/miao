@@ -28,7 +28,7 @@ import { toRefs } from "vue"
 			// 去详情页
 			const toAskDetail=(id)=>{
 				uni.navigateTo({
-					url:`/pages/askDetail/askDetail?id=${id}`
+					url:`/pages/question/details?id=${id}`
 				})
 			}
 			

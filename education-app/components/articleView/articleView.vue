@@ -34,7 +34,7 @@
 			const toDetail=(id)=>{
 				console.log(id);
 				uni.navigateTo({
-					url:`/pages/articleDetail/articleDetail?id=${id}`
+					url:`/pages/article/details?id=${id}`
 				})
 			}
 			return {

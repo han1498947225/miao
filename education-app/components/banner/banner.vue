@@ -1,49 +1,52 @@
 <template>
 	<view>
-		<swiper @change="swiperItem" :indicator-dots="true" :autoplay="true" indicator-active-color="#fff" indicator-color="#ccc" :interval="3000" :duration="1000">
-			<swiper-item v-for="item in bannerList" :key="item.id" :style="`background-image:linear-gradient(${item.background},#fff)`">				
-					<image :src="item.imageUrl" mode=""></image>
+		<swiper @change="swiperItem" :indicator-dots="true" indicator-active-color="#fff" :autoplay="true" :interval="3000" :duration="1500">
+			<swiper-item class="swiper-item" v-for="(item,index) in banners" :key="index" :style="`background-image: linear-gradient(${item.background}, #fff);`">
+				<view>
+					<image :src="'../..'+item.imageUrl"></image>
+				</view>
 			</swiper-item>
+		<!-- 	<swiper-item>
+				<view class="swiper-item">
+					<image src="../../static/images/banner1.jpg"></image>
+				</view>
+			</swiper-item>
+			<swiper-item>
+				<view class="swiper-item">
+					<image src="../../static/images/banner3.jpg"></image>
+				</view>
+			</swiper-item> -->
 		</swiper>
 	</view>
 </template>
 
 <script>
-	import {getBanner} from '@/utils/http.js'
-import { reactive, toRefs } from "vue";
 	export default {
-		setup(props, ctx){
-			const data=reactive({
-				bannerList:[]
-			})
-			
+		name: "banner",
+		props:['banners'],
+		setup(props, ctx) {
 			const swiperItem = (e) => {
-				ctx.emit('swiperItem', data.bannerList[e.detail.current].background)
+				ctx.emit('swiperItem', props.banners[e.detail.current].background)
 			}
-			
-			getBanner().then(res =>{
-				console.log(res);
-				if(res.code==20000){
-					data.bannerList=res.data
-				}
-			})
 			return {
-				...toRefs(data),
 				swiperItem
 			}
 		}
 	}
 </script>
 
-<style lang="scss">
- .swiper{
+<style>
+	swiper {
+		height: 380rpx;
+	}
+
+	.swiper-item {
+		padding: 26rpx;
+		box-sizing: border-box;
+	}
+	image {
 		width: 100%;
 		height: 350rpx;
-	}
-	image{
-		width: 90%;
-		margin-left: 5%;
-		height: 297rpx;
-		border-radius: 15rpx;
+		border-radius: 25rpx;
 	}
 </style>

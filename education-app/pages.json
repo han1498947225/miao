@@ -3,146 +3,167 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
 			}
 		}
 	    ,{
-            "path" : "pages/cateView/cateView",
+            "path" : "pages/category/category",
             "style" :                                                                                    
             {
-               "navigationBarTitleText": "分类",
-			   "navigationBarBackgroundColor": "#345dc2",
-			   "navigationBarTextStyle": "white",
+				"navigationStyle": "custom",
                 "enablePullDownRefresh": false
             }
             
         }
         ,{
-            "path" : "pages/articleView/articleView",
+            "path" : "pages/article/article",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/question/question",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/my",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#345dc2"
+            }
+        }
+		,{
+            "path" : "pages/my/study",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        }
+		,{
+            "path" : "pages/my/setting",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+        }
+		,{
+            "path" : "pages/my/user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人资料",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#fff"
+            }
+        }
+		,{
+            "path" : "pages/my/about",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+        }
+		,{
+            "path" : "pages/my/feedback",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/searchView/searchView",
+            "style" :                                                                                    
+            {
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/loginView/loginView",
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
                 "enablePullDownRefresh": false
             }
             
-        },
-		{
-			"path": "pages/askView/askView",
-			"style": {
-				 "navigationStyle": "custom",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path" : "pages/mineView/mineView",
-			"style" :                                                                                    
-			{
-			    
-				 "navigationStyle": "custom",
-			    "enablePullDownRefresh": false
-			}
-		},
-		{
-			"path" : "pages/searchView/searchView",
-			"style" :                                                                                    
-			{
-			   "navigationStyle": "custom",
-			    "enablePullDownRefresh": false
-			}
-		}
-        ,{
-            "path" : "pages/loginView/loginView",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        },
-		{
-			"path" : "pages/detailView/detailView",
-			"style" :                                                                                    
-			{
-			   "navigationStyle": "custom",
-			    "enablePullDownRefresh": false
-			}
-		}
-        ,{
-            "path" : "pages/contentView/contentView",
-            "style" :                                                                                    
-            {
-              "navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
         }
         ,{
-            "path" : "pages/videoView/videoView",
+            "path" : "pages/detailView/detailView",
             "style" :                                                                                    
             {
-               "navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-           "path": "pages/orderView/orderView",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        },
-		{
-			"path": "pages/articleDetail/articleDetail",
-			"style": {
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": false
-			}
-		}
-        ,{
-            "path" : "pages/askDetail/askDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             
         }
         ,{
-            "path" : "pages/balanceView/balanceView",
+            "path" : "pages/article/details",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationStyle": "custom",
                 "enablePullDownRefresh": false
             }
             
-        },
-		{
-		    "path" : "pages/aboutus/aboutus",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "关于梦学谷",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},
-		{
-		    "path" : "pages/feedback/feedback",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "意见反馈",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
+        }
         ,{
-            "path" : "pages/setting/setting",
+            "path" : "pages/question/details",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "设置",
+                "navigationStyle": "custom",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/order",
+            "style" :
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		,{
+            "path" : "/pages/order/mybalance",
+            "style" :
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/content/content",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		,{
+            "path" : "pages/order/confirm",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认购买",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#fff"
             }
             
         }
@@ -154,41 +175,42 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
+		"backgroundColor": "#f8f8f8",
+		"borderStyle": "none",
 		"list": [
 			{
+				"pagePath": "pages/index/index",
 				"iconPath": "static/tab/index.png",
 				"selectedIconPath": "static/tab/index-active.png",
-				"pagePath": "pages/index/index",
 				"text": "首页"
 			},
 			{
+				"pagePath": "pages/category/category",
 				"iconPath": "static/tab/category.png",
 				"selectedIconPath": "static/tab/category-active.png",
-				"pagePath": "pages/cateView/cateView",
 				"text": "分类"
 			},
 			{
+				"pagePath": "pages/article/article",
 				"iconPath": "static/tab/article.png",
 				"selectedIconPath": "static/tab/article-active.png",
-				"pagePath": "pages/articleView/articleView",
 				"text": "阅读"
 			},
 			{
+				"pagePath": "pages/question/question",
 				"iconPath": "static/tab/question.png",
 				"selectedIconPath": "static/tab/question-active.png",
-				"pagePath": "pages/askView/askView",
 				"text": "问答"
 			},
 			{
+				"pagePath": "pages/my/my",
 				"iconPath": "static/tab/my.png",
 				"selectedIconPath": "static/tab/my-active.png",
-				"pagePath": "pages/mineView/mineView",
 				"text": "我的"
 			}
 		]
 	},
 	"easycom": {
 		"autoscan": true
-	},
-	"uniIdRouter": {}
+	}
 }
